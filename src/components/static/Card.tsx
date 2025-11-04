@@ -8,8 +8,10 @@ function CardComponent({ product }: { product: Product }) {
         <div className="aspect-square overflow-hidden rounded-md mb-4">
           <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
         </div>
-        <CardTitle>{product.name}</CardTitle>
-        <CardDescription>{product.description}</CardDescription>
+        <CardTitle className="h-14 overflow-hidden text-ellipsis line-clamp-1">{product.name}</CardTitle>
+        <CardDescription className="h-20 overflow-hidden text-ellipsis line-clamp-1">
+          {product.description}
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="flex flex-col gap-2">

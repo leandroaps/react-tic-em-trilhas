@@ -1,13 +1,15 @@
 import Home from '@/components/static/Home';
-import { memo } from 'react';
+import { memo, useState } from 'react';
 import Header from './components/static/Header';
 
 function App() {
+  const [searchTerm, setSearchTerm] = useState<string>('');
+
   return (
     <>
-      <Header />
+      <Header onSearchChange={setSearchTerm} />
       <main className="flex p-4">
-        <Home />
+        <Home searchTerm={searchTerm} />
       </main>
     </>
   );

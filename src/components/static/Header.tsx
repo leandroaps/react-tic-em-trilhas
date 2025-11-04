@@ -5,11 +5,13 @@ import ProductServices from '@/services/Products.service';
 import { IconInnerShadowTop } from '@tabler/icons-react';
 import { useQuery } from '@tanstack/react-query';
 import { debounce } from 'lodash';
-import { memo, useCallback, useEffect, useRef, useState } from 'react';
+import { memo, useCallback, useRef, useState } from 'react';
 import List from './List';
 
 function Header() {
   const [productName, setProductName] = useState<string>('');
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
   const refDropDown = useRef<HTMLUListElement>(null);
 
   const { data: productsByName } = useQuery({
@@ -20,21 +22,19 @@ function Header() {
     enabled: productName.length > 0,
   });
 
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-
   const handleSearch = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
+
+    if (value.length > 0) {
+      setIsOpen(true);
+    } else {
+      setIsOpen(false);
+    }
 
     setProductName(value);
   }, []);
 
   useOnClickOutside({ ref: refDropDown, handle: () => setIsOpen(false) });
-
-  useEffect(() => {
-    if (productName.length > 0) {
-      setIsOpen(true);
-    }
-  }, [productName.length]);
 
   const debouncedFunction = debounce(handleSearch, 500);
 

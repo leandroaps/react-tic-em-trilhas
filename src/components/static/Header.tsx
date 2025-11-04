@@ -8,10 +8,13 @@ interface HeaderProps {
 }
 
 function Header({ onSearchChange }: HeaderProps) {
-  const handleSearch = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    onSearchChange(value);
-  }, [onSearchChange]);
+  const handleSearch = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value;
+      onSearchChange(value);
+    },
+    [onSearchChange]
+  );
 
   const debouncedFunction = debounce(handleSearch, 500);
 
@@ -24,7 +27,12 @@ function Header({ onSearchChange }: HeaderProps) {
         </a>
       </div>
       <div className="w-full justify-start px-3 col-span-4 relative">
-        <Input type="text" placeholder="Search a Product" onChange={(e) => debouncedFunction(e)} className="w-full" />
+        <Input
+          type="text"
+          placeholder="Search a Product"
+          onChange={e => debouncedFunction(e)}
+          className="w-full"
+        />
       </div>
     </header>
   );

@@ -30,11 +30,11 @@ function Home({ searchTerm }: HomeProps) {
       .toLowerCase()
       .trim()
       .split(/\s+/)
-      .filter((word) => word.length > 0);
+      .filter(word => word.length > 0);
 
-    return products.filter((product) => {
+    return products.filter(product => {
       const productName = product.name.toLowerCase();
-      return searchWords.some((word) => productName.includes(word));
+      return searchWords.some(word => productName.includes(word));
     });
   }, [products, searchTerm]);
 
@@ -50,7 +50,7 @@ function Home({ searchTerm }: HomeProps) {
     <div className="flex flex-col h-full w-full">
       <div className="grid w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4 p-4">
         {filteredProducts.length > 0 ? (
-          filteredProducts.map((product) => {
+          filteredProducts.map(product => {
             return <CardComponent key={product.id} item={product} />;
           })
         ) : (

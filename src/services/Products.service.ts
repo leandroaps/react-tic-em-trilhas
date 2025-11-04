@@ -20,12 +20,12 @@ const searchProducts = async (name: string) => {
     .toLowerCase()
     .trim()
     .split(/\s+/)
-    .filter((word) => word.length > 0);
+    .filter(word => word.length > 0);
 
   // Filter products where the product name contains ANY of the search words
-  const filteredProducts = response.data.filter((product) => {
+  const filteredProducts = response.data.filter(product => {
     const productName = product.name.toLowerCase();
-    return searchWords.some((word) => productName.includes(word));
+    return searchWords.some(word => productName.includes(word));
   });
 
   return filteredProducts;

@@ -1,5 +1,6 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import type { Product } from '@/interfaces/Products.interface';
+import { memo } from 'react';
 
 function CardComponent({ item }: Product) {
   return (
@@ -25,4 +26,4 @@ function CardComponent({ item }: Product) {
   );
 }
 
-export default CardComponent;
+export default memo(CardComponent);

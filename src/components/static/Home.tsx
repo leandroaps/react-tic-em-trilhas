@@ -1,8 +1,9 @@
-import getAllProducts from '@/services/Products.service';
+import ProductServices from '@/services/Products.service';
 import { useQuery } from '@tanstack/react-query';
+import { memo } from 'react';
 import CardComponent from './Card';
 
-export function Home() {
+function Home() {
   const {
     data: products,
     error,
@@ -10,7 +11,7 @@ export function Home() {
   } = useQuery({
     queryKey: ['query-products'],
     queryFn: async () => {
-      return await getAllProducts();
+      return await ProductServices.getAllProducts();
     },
   });
 
@@ -30,3 +31,5 @@ export function Home() {
     </div>
   );
 }
+
+export default memo(Home);

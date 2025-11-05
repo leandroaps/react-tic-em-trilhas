@@ -2,12 +2,12 @@ import CardComponent from '@/components/static/Card';
 import ProductServices from '@/services/Products.service';
 import { useQuery } from '@tanstack/react-query';
 import { memo, useMemo } from 'react';
+import { useSearchParams } from 'react-router';
 
-interface HomeProps {
-  searchTerm: string;
-}
+function Home() {
+  const [searchParams] = useSearchParams();
+  const searchTerm = searchParams.get('search') ?? '';
 
-function Home({ searchTerm }: HomeProps) {
   const {
     data: products,
     error,
@@ -33,7 +33,8 @@ function Home({ searchTerm }: HomeProps) {
       .filter(word => word.length > 0);
 
     return products.filter(product => {
-      const productName = product.name.toLowerCase();
+      if (!product.title) return false;
+      const productName = product.title.toLowerCase();
       return searchWords.some(word => productName.includes(word));
     });
   }, [products, searchTerm]);

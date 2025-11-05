@@ -9,8 +9,11 @@ const ShoppingCartContextDefaultValue: ShoppingCartListIContextData = {
   items: [],
   totalSumAmount: 0,
   totalQuantity: 0,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   addProduct: () => {},
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   onRemove: () => {},
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   onDecrease: () => {},
 };
 
@@ -27,7 +30,7 @@ export const ShoppingCartProvider = ({
   const [items, setItems] = useState<ListItem[]>(() => {
     try {
       const storedItems = localStorage.getItem(STORAGE_KEY);
-      return storedItems ? JSON.parse(storedItems) : [];
+      return storedItems ? (JSON.parse(storedItems) as ListItem[]) : [];
     } catch (error) {
       console.error('Error loading cart from localStorage:', error);
       return [];
@@ -45,13 +48,13 @@ export const ShoppingCartProvider = ({
   const totalSumAmount = items.reduce((sum, item) => sum + item.amount, 0);
   const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
 
-  const addProduct = (id: number, name: string, price: number) => {
+  const addProduct = (id: number, title: string, price: number) => {
     const productAlreadyInCart = items.find(product => product.id === id);
 
     if (!productAlreadyInCart) {
       const item: ListItem = {
         id: id,
-        name: name,
+        title: title,
         amount: price,
         unitPrice: price,
         quantity: 1,

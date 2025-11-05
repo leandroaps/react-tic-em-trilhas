@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { useShoppingCart } from '@/hooks/useShoppingList';
+import { useShoppingCart } from '@/hooks/useShoppingCart';
 import type { Product } from '@/interfaces/Products.interface';
 import { memo } from 'react';
 
@@ -25,12 +25,12 @@ function CardComponent({ item }: Product) {
         <div className="aspect-square overflow-hidden rounded-md mb-4">
           <img
             src={item.image}
-            alt={item.name}
+            alt={item.title}
             className="w-full h-full object-cover"
           />
         </div>
         <CardTitle className="h-14 overflow-hidden text-ellipsis line-clamp-1">
-          {item.name}
+          {item.title}
         </CardTitle>
         <CardDescription className="h-20 overflow-hidden text-ellipsis line-clamp-1">
           {item.description}
@@ -51,7 +51,7 @@ function CardComponent({ item }: Product) {
         <Button
           onClick={e => {
             e.stopPropagation();
-            addProduct(item.id, item.name, item.price);
+            addProduct(item.id, item.title, item.price);
           }}
         >
           Buy

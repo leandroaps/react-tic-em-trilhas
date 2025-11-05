@@ -1,32 +1,34 @@
 import { ShoppingCartProvider } from '@/contexts/ShoppingCart.context';
 import Home from '@/pages/Home';
 import ShoppingCart from '@/pages/ShoppingCart';
-import { memo, useState } from 'react';
+import { memo, useMemo } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router';
 import Layout from './components/static/Layout';
 
 function App() {
-  const [searchTerm, setSearchTerm] = useState<string>('');
-
-  const route = createBrowserRouter([
-    {
-      element: <Layout onSearchChange={setSearchTerm} />,
-      children: [
+  const router = useMemo(
+    () =>
+      createBrowserRouter([
         {
-          path: '/',
-          element: <Home searchTerm={searchTerm} />,
+          element: <Layout />,
+          children: [
+            {
+              path: '/',
+              element: <Home />,
+            },
+            {
+              path: '/shopping-cart',
+              element: <ShoppingCart />,
+            },
+          ],
         },
-        {
-          path: '/shopping-cart',
-          element: <ShoppingCart />,
-        },
-      ],
-    },
-  ]);
+      ]),
+    []
+  );
 
   return (
     <ShoppingCartProvider>
-      <RouterProvider router={route} />
+      <RouterProvider router={router} />
     </ShoppingCartProvider>
   );
 }

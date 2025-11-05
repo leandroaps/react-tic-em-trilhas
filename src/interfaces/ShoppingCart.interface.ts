@@ -4,7 +4,7 @@ export interface ShoppingCartProviderProps {
 
 export interface ListItem {
   id: number;
-  name: string;
+  title: string;
   quantity: number;
   unitPrice: number;
   amount: number;
@@ -14,7 +14,7 @@ export interface ShoppingCartListIContextData {
   items: ListItem[];
   totalSumAmount: number;
   totalQuantity: number;
-  addProduct: (id: number, name: string, price: number) => void;
+  addProduct: (id: number, title: string, price: number) => void;
   onRemove: (id: number) => void;
   onDecrease: (id: number, price: number) => void;
 }

@@ -5,7 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { useShoppingCart } from '@/hooks/useShoppingList';
+import { useShoppingCart } from '@/hooks/useShoppingCart';
 import type { ListItem } from '@/interfaces/ShoppingCart.interface';
 import { memo } from 'react';
 import { Button } from '../ui/button';
@@ -21,8 +21,8 @@ function CardCartComponent({ item }: { item: ListItem }) {
   return (
     <Card className="w-full m-2">
       <CardHeader>
-        <CardTitle className="h-10overflow-hidden text-ellipsis line-clamp-1">
-          {item.name}
+        <CardTitle className="h-10 overflow-hidden text-ellipsis line-clamp-1">
+          {item.title}
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -40,7 +40,7 @@ function CardCartComponent({ item }: { item: ListItem }) {
         <Button
           onClick={e => {
             e.stopPropagation();
-            addProduct(item.id, item.name, item.unitPrice);
+            addProduct(item.id, item.title, item.unitPrice);
           }}
         >
           Buy

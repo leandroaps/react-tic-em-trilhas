@@ -1,26 +1,35 @@
 import { Input } from '@/components/ui/input';
-import { useShoppingCart } from '@/hooks/useShoppingList';
+import { useShoppingCart } from '@/hooks/useShoppingCart';
 import { IconInnerShadowTop, IconShoppingBag } from '@tabler/icons-react';
 import { debounce } from 'lodash';
-import { memo, useCallback } from 'react';
-import { Link } from 'react-router';
+import { memo, useCallback, useMemo } from 'react';
+import { Link, useNavigate, useSearchParams } from 'react-router';
 
-interface HeaderProps {
-  onSearchChange: (searchTerm: string) => void;
-}
-
-function Header({ onSearchChange }: HeaderProps) {
+function Header() {
   const { totalQuantity } = useShoppingCart();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  const debouncedSearch = useMemo(
+    () =>
+      debounce((value: string) => {
+        if (value.trim()) {
+          void navigate(`/?search=${encodeURIComponent(value)}`, {
+            replace: true,
+          });
+        } else {
+          void navigate('/', { replace: true });
+        }
+      }, 500),
+    [navigate]
+  );
 
   const handleSearch = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      const value = e.target.value;
-      onSearchChange(value);
+      debouncedSearch(e.target.value);
     },
-    [onSearchChange]
+    [debouncedSearch]
   );
-
-  const debouncedFunction = debounce(handleSearch, 500);
 
   return (
     <header className="grid h-16 shrink-0 items-center border-b grid-cols-12 fixed bg-accent w-full">
@@ -34,7 +43,8 @@ function Header({ onSearchChange }: HeaderProps) {
         <Input
           type="text"
           placeholder="Search a Product"
-          onChange={e => debouncedFunction(e)}
+          onChange={handleSearch}
+          defaultValue={searchParams.get('search') ?? ''}
           className="w-full"
         />
       </div>

@@ -6,17 +6,17 @@ const getAllProducts = async () => {
   return response.data;
 };
 
-const searchProducts = async (name: string) => {
+const searchProducts = async (title: string) => {
   // Fetch all products
   const response = await httpCommons.get<ProductProps[]>('products');
 
   // If no search term, return all products
-  if (!name || name.trim() === '') {
+  if (!title || title.trim() === '') {
     return response.data;
   }
 
   // Split search term into individual words and filter out empty strings
-  const searchWords = name
+  const searchWords = title
     .toLowerCase()
     .trim()
     .split(/\s+/)
@@ -24,7 +24,7 @@ const searchProducts = async (name: string) => {
 
   // Filter products where the product name contains ANY of the search words
   const filteredProducts = response.data.filter(product => {
-    const productName = product.name.toLowerCase();
+    const productName = product.title.toLowerCase();
     return searchWords.some(word => productName.includes(word));
   });
 

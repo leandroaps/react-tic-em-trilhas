@@ -3,10 +3,10 @@ import type {
   ShoppingCartListIContextData,
   ShoppingCartProviderProps,
 } from '@/interfaces/ShoppingCart.interface';
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 
 const ShoppingCartContextDefaultValue: ShoppingCartListIContextData = {
-  item: [],
+  items: [],
   totalSumAmount: 0,
   totalQuantity: 0,
   addProduct: () => {},
@@ -14,14 +14,33 @@ const ShoppingCartContextDefaultValue: ShoppingCartListIContextData = {
   onDecrease: () => {},
 };
 
-const ShoppingCartContext = createContext<ShoppingCartListIContextData>(
+// eslint-disable-next-line react-refresh/only-export-components
+export const ShoppingCartContext = createContext<ShoppingCartListIContextData>(
   ShoppingCartContextDefaultValue
 );
+
+const STORAGE_KEY = 'shopping-cart-items';
 
 export const ShoppingCartProvider = ({
   children,
 }: ShoppingCartProviderProps) => {
-  const [items, setItems] = useState<ListItem[]>([]);
+  const [items, setItems] = useState<ListItem[]>(() => {
+    try {
+      const storedItems = localStorage.getItem(STORAGE_KEY);
+      return storedItems ? JSON.parse(storedItems) : [];
+    } catch (error) {
+      console.error('Error loading cart from localStorage:', error);
+      return [];
+    }
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+    } catch (error) {
+      console.error('Error saving cart to localStorage:', error);
+    }
+  }, [items]);
 
   const totalSumAmount = items.reduce((sum, item) => sum + item.amount, 0);
   const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
@@ -85,7 +104,7 @@ export const ShoppingCartProvider = ({
   return (
     <ShoppingCartContext.Provider
       value={{
-        item: items,
+        items: items,
         totalSumAmount,
         totalQuantity,
         addProduct,

@@ -11,7 +11,7 @@ export interface ListItem {
 }
 
 export interface ShoppingCartListIContextData {
-  item: ListItem[];
+  items: ListItem[];
   totalSumAmount: number;
   totalQuantity: number;
   addProduct: (id: number, name: string, price: number) => void;

@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -6,10 +7,18 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { useShoppingCart } from '@/hooks/useShoppingList';
 import type { Product } from '@/interfaces/Products.interface';
 import { memo } from 'react';
 
 function CardComponent({ item }: Product) {
+  const { addProduct } = useShoppingCart();
+
+  const price = item.price.toLocaleString('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  });
+
   return (
     <Card className="w-full m-2">
       <CardHeader>
@@ -29,7 +38,7 @@ function CardComponent({ item }: Product) {
       </CardHeader>
       <CardContent>
         <div className="flex flex-col gap-2">
-          <p className="text-2xl font-bold">${item.price.toFixed(2)}</p>
+          <p className="text-2xl font-bold">{price}</p>
           <p className="text-sm text-muted-foreground">
             Category: {item.category}
           </p>
@@ -38,7 +47,16 @@ function CardComponent({ item }: Product) {
           </p>
         </div>
       </CardContent>
-      <CardFooter className="flex-col gap-2"></CardFooter>
+      <CardFooter className="flex-col gap-2">
+        <Button
+          onClick={e => {
+            e.stopPropagation();
+            addProduct(item.id, item.name, item.price);
+          }}
+        >
+          Buy
+        </Button>
+      </CardFooter>
     </Card>
   );
 }

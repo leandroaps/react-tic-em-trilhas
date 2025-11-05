@@ -29,7 +29,7 @@ function CardCartComponent({ item }: { item: ListItem }) {
         <div className="flex flex-col gap-2">
           <p className="text-sm text-muted-foreground">
             <strong>Quantity: </strong>
-            {item.quantity}
+            {item.stock}
           </p>
           <p className="text-sm text-muted-foreground">
             <strong>Total: </strong> {amount}

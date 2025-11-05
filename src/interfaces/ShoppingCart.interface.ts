@@ -5,7 +5,7 @@ export interface ShoppingCartProviderProps {
 export interface ListItem {
   id: number;
   title: string;
-  quantity: number;
+  stock: number;
   unitPrice: number;
   amount: number;
 }

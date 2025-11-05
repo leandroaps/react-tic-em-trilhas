@@ -2,13 +2,15 @@ import { Input } from '@/components/ui/input';
 import { useShoppingCart } from '@/hooks/useShoppingCart';
 import { IconInnerShadowTop, IconShoppingBag } from '@tabler/icons-react';
 import { debounce } from 'lodash';
-import { memo, useCallback, useMemo } from 'react';
+import { Loader2 } from 'lucide-react';
+import { memo, useCallback, useMemo, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router';
 
 function Header() {
   const { totalQuantity } = useShoppingCart();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const [isSearching, setIsSearching] = useState(false);
 
   const debouncedSearch = useMemo(
     () =>
@@ -20,12 +22,14 @@ function Header() {
         } else {
           void navigate('/', { replace: true });
         }
+        setIsSearching(false);
       }, 500),
     [navigate]
   );
 
   const handleSearch = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
+      setIsSearching(true);
       debouncedSearch(e.target.value);
     },
     [debouncedSearch]
@@ -45,8 +49,13 @@ function Header() {
           placeholder="Search a Product"
           onChange={handleSearch}
           defaultValue={searchParams.get('search') ?? ''}
-          className="w-full"
+          className="w-full pr-10"
         />
+        {isSearching && (
+          <div className="absolute right-6 top-1/2 -translate-y-1/2">
+            <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+          </div>
+        )}
       </div>
       <div className="flex w-full justify-end px-3 col-span-2 relative">
         <Link to="shopping-cart" className="flex items-center gap-2">

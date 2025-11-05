@@ -46,7 +46,10 @@ export const ShoppingCartProvider = ({
   }, [items]);
 
   const totalSumAmount = items.reduce((sum, item) => sum + item.amount, 0);
-  const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
+  const totalQuantity = items.reduce(
+    (sum, item) => sum + Number(item.stock),
+    0
+  );
 
   const addProduct = (id: number, title: string, price: number) => {
     const productAlreadyInCart = items.find(product => product.id === id);
@@ -57,7 +60,7 @@ export const ShoppingCartProvider = ({
         title: title,
         amount: price,
         unitPrice: price,
-        quantity: 1,
+        stock: 1,
       };
 
       return setItems([...items, item]);
@@ -68,7 +71,7 @@ export const ShoppingCartProvider = ({
         return cartItem.id === id
           ? {
               ...cartItem,
-              quantity: Number(cartItem.quantity) + 1,
+              stock: Number(cartItem.stock) + 1,
               amount: cartItem.amount + price,
             }
           : cartItem;
@@ -87,13 +90,13 @@ export const ShoppingCartProvider = ({
     const updatedCart = items
       .map(cartItem => {
         if (cartItem.id === id) {
-          const newQuantity = cartItem.quantity - 1;
+          const newQuantity = cartItem.stock - 1;
           if (newQuantity <= 0) {
             return null;
           }
           return {
             ...cartItem,
-            quantity: newQuantity,
+            stock: newQuantity,
             amount: cartItem.amount - price,
           };
         }

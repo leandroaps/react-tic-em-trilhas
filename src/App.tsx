@@ -1,5 +1,6 @@
 import { ShoppingCartProvider } from '@/contexts/ShoppingCart.context';
 import Home from '@/pages/Home';
+import ProductDetails from '@/pages/ProductDetails';
 import ShoppingCart from '@/pages/ShoppingCart';
 import { memo, useMemo } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router';
@@ -15,6 +16,10 @@ function App() {
             {
               path: '/',
               element: <Home />,
+            },
+            {
+              path: '/product/:id',
+              element: <ProductDetails />,
             },
             {
               path: '/shopping-cart',

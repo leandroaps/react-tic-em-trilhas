@@ -33,7 +33,7 @@ describe('useShoppingCart', () => {
     expect(result.current.items[0]).toEqual({
       id: 1,
       title: 'Test Product',
-      quantity: 1,
+      stock: 1,
       unitPrice: 100,
       amount: 100,
     });
@@ -41,7 +41,7 @@ describe('useShoppingCart', () => {
     expect(result.current.totalSumAmount).toBe(100);
   });
 
-  it('should increase quantity when adding existing product', () => {
+  it('should increase stock when adding existing product', () => {
     const { result } = renderHook(() => useShoppingCart(), {
       wrapper: ShoppingCartProvider,
     });
@@ -55,7 +55,7 @@ describe('useShoppingCart', () => {
     });
 
     expect(result.current.items).toHaveLength(1);
-    expect(result.current.items[0]?.quantity).toBe(2);
+    expect(result.current.items[0]?.stock).toBe(2);
     expect(result.current.items[0]?.amount).toBe(200);
     expect(result.current.totalQuantity).toBe(2);
     expect(result.current.totalSumAmount).toBe(200);
@@ -76,7 +76,7 @@ describe('useShoppingCart', () => {
     expect(result.current.totalSumAmount).toBe(0);
   });
 
-  it('should decrease product quantity', () => {
+  it('should decrease product stock', () => {
     const { result } = renderHook(() => useShoppingCart(), {
       wrapper: ShoppingCartProvider,
     });
@@ -94,11 +94,11 @@ describe('useShoppingCart', () => {
     });
 
     expect(result.current.items).toHaveLength(1);
-    expect(result.current.items[0]?.quantity).toBe(1);
+    expect(result.current.items[0]?.stock).toBe(1);
     expect(result.current.items[0]?.amount).toBe(100);
   });
 
-  it('should remove product when decreasing quantity to zero', () => {
+  it('should remove product when decreasing stock to zero', () => {
     const { result } = renderHook(() => useShoppingCart(), {
       wrapper: ShoppingCartProvider,
     });

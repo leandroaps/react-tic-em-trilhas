@@ -3,11 +3,18 @@ export interface ProductProps {
   title: string;
   description?: string;
   price: number;
-  quantity: number;
+  stock: number;
   category: string;
-  image: string;
+  images: string[];
 }
 
 export interface Product {
   item: ProductProps;
+}
+
+export interface ProductsResponse {
+  products: ProductProps[];
+  total?: number;
+  skip?: number;
+  limit?: number;
 }

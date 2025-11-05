@@ -8,9 +8,9 @@ const mockProduct: ProductProps = {
   title: 'Test Product',
   description: 'Test Description',
   price: 99.99,
-  quantity: 10,
+  stock: 10,
   category: 'Electronics',
-  image: 'https://via.placeholder.com/150',
+  images: 'https://via.placeholder.com/150',
 };
 
 describe('Card Component', () => {
@@ -24,12 +24,12 @@ describe('Card Component', () => {
     expect(screen.getByText('R$ 99,99')).toBeInTheDocument();
   });
 
-  it('should render product image with correct alt text', () => {
+  it('should render product images with correct alt text', () => {
     render(<Card item={mockProduct} />);
 
-    const image = screen.getByAltText('Test Product');
-    expect(image).toBeInTheDocument();
-    expect(image).toHaveAttribute('src', mockProduct.image);
+    const images = screen.getByAltText('Test Product');
+    expect(images).toBeInTheDocument();
+    expect(images).toHaveAttribute('src', mockProduct.images);
   });
 
   it('should render buy button', () => {

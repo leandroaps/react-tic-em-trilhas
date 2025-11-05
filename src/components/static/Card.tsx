@@ -10,21 +10,30 @@ import {
 import { useShoppingCart } from '@/hooks/useShoppingCart';
 import type { Product } from '@/interfaces/Products.interface';
 import { memo } from 'react';
+import { useNavigate } from 'react-router';
 
 function CardComponent({ item }: Product) {
   const { addProduct } = useShoppingCart();
+  const navigate = useNavigate();
 
   const price = item.price.toLocaleString('pt-BR', {
     style: 'currency',
     currency: 'BRL',
   });
 
+  const handleCardClick = () => {
+    void navigate(`/product/${item.id}`);
+  };
+
   return (
-    <Card className="w-full m-2">
+    <Card
+      className="w-full m-2 cursor-pointer hover:shadow-lg transition-shadow duration-200"
+      onClick={handleCardClick}
+    >
       <CardHeader>
         <div className="aspect-square overflow-hidden rounded-md mb-4">
           <img
-            src={item.image}
+            src={item.images[0]}
             alt={item.title}
             className="w-full h-full object-cover"
           />
@@ -43,7 +52,7 @@ function CardComponent({ item }: Product) {
             Category: {item.category}
           </p>
           <p className="text-sm text-muted-foreground">
-            In stock: {item.quantity}
+            In stock: {item.stock}
           </p>
         </div>
       </CardContent>
@@ -53,8 +62,19 @@ function CardComponent({ item }: Product) {
             e.stopPropagation();
             addProduct(item.id, item.title, item.price);
           }}
+          className="w-full"
         >
-          Buy
+          Add to Cart
+        </Button>
+        <Button
+          onClick={e => {
+            e.stopPropagation();
+            handleCardClick();
+          }}
+          variant="outline"
+          className="w-full"
+        >
+          View Details
         </Button>
       </CardFooter>
     </Card>

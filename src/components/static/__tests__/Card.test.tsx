@@ -10,7 +10,7 @@ const mockProduct: ProductProps = {
   price: 99.99,
   stock: 10,
   category: 'Electronics',
-  images: 'https://via.placeholder.com/150',
+  images: ['https://via.placeholder.com/150'],
 };
 
 describe('Card Component', () => {
@@ -29,7 +29,7 @@ describe('Card Component', () => {
 
     const images = screen.getByAltText('Test Product');
     expect(images).toBeInTheDocument();
-    expect(images).toHaveAttribute('src', mockProduct.images);
+    expect(images).toHaveAttribute('src', mockProduct.images[0]);
   });
 
   it('should render buy button', () => {

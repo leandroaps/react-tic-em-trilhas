@@ -78,13 +78,12 @@ function ProductDetails() {
       </Button>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Product Image */}
         <div className="w-full">
           <Card className="overflow-hidden">
             <CardContent className="p-0">
               <div className="aspect-square overflow-hidden">
                 <img
-                  src={product.images}
+                  src={product.images[0]}
                   alt={product.title}
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                 />
